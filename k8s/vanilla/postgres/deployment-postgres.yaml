@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+  namespace: ecommerce-user-db
+  labels:
+    db: ecommerce-user-db
+spec:
+  selector:
+    matchLabels:
+      db: ecommerce-user-db
+  template:
+    metadata:
+      labels:
+        db: ecommerce-user-db
+    spec:
+      containers:
+        - name: ecommerce-postgres
+          ports:
+            - containerPort: 5432
+          image:  postgres
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  key: postgres_user
+                  name: configmap-postgres
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: postgres_password
+                  name: configmap-postgres
+

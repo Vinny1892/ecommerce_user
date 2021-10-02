@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecommerce-user-deployment
+  namespace: ecommerce-user-app
+  labels:
+    app: ecommerce-user-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ecommerce-user-app
+  template:
+    metadata:
+      namespace: ecommerce-user-app
+      labels:
+        app: ecommerce-user-app
+    spec:
+      containers:
+        - name: ecommerce-user
+          image: vinny1892/ecommerce_user:latest
+          ports:
+            - containerPort: 51051
+          env:
+            - name: SERVER_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: server_port
+                  name: ecommerce-user-configmap
+            - name: GRPC_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: grpc_port
+                  name: ecommerce-user-configmap
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  key: db_name
+                  name: ecommerce-user-configmap
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  key: db_user
+                  name: ecommerce-user-secret
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: db_password
+                  name: ecommerce-user-secret
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  key: db_host
+                  name: ecommerce-user-configmap
+
+
+
+

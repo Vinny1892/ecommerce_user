@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: ecommerce-user-app
+  namespace: ecommerce-user-app
+  name: service-ecommerce-user-app
+spec:
+  ports:
+    - name: http
+      targetPort: 51051
+      port: 5000

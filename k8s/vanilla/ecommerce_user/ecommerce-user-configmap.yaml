@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ecommerce-user-configmap
+  namespace: ecommerce-user-app
+data:
+  server_port: "4000"
+  grpc_port: "51051"
+  db_name: app
+  db_host: postgres-service.ecommerce-user-db
